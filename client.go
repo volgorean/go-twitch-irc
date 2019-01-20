@@ -237,6 +237,9 @@ func (c *Client) Connect() error {
 			if err == ErrLoginAuthenticationFailed {
 				return err
 			}
+			if err.Error() == "EOF" { // or io.EOF
+				return errors.New("Nothing returned from IRC server")
+			}
 			time.Sleep(time.Millisecond * 200)
 			continue
 		}
